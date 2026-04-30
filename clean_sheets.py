@@ -108,13 +108,14 @@ class CleanSheetsApp(QMainWindow):
             df = df.dropna(how='all')
             df = df.drop_duplicates()
 
-            # 4. Strip whitespace
+            # 4. Clean strings (whitespace + formatting)
             try:
-                str_cols = df.select_dtypes(include=['object']).columns
-                for col in str_cols:
-                    df[col] = df[col].apply(lambda x: x.strip() if isinstance(x, str) else x)
-                steps.append("✅ Trimmed whitespace safely")
-            except Exception as e: self.log(f"⚠️ Error cleaning strings: {e}")
+             str_cols = df.select_dtypes(include=['object']).columns
+             for col in str_cols:
+                      df[col] = df[col].str.strip().str.title()
+             steps.append("🧼 Cleaned text formatting")
+            except Exception as e:
+                 self.log(f"⚠️ Error cleaning strings: {e}")
 
             # 5. Fill missing
             try:
@@ -159,6 +160,30 @@ class CleanSheetsApp(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyle("Fusion") 
+    app.setStyleSheet("""
+    QWidget {
+        background-color: #ffe5d0;   /* peach */
+        color: #ff6f3c;              /* sunset orange text */
+    }
+
+    QPushButton {
+        background-color: #ff8c42;   /* brighter orange */
+        color: white;
+        border-radius: 6px;
+        padding: 6px;
+    }
+
+    QPushButton:hover {
+        background-color: #e76f2e;
+    }
+
+    QTextEdit {
+        background-color: #fff1e6;   /* lighter peach */
+        color: #333333;              /* readable text */
+        border-radius: 5px;
+        padding: 6px;
+    }
+""")
     window = CleanSheetsApp()
     window.show()
     sys.exit(app.exec())
