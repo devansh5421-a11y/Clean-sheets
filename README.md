@@ -29,6 +29,7 @@ Download the CleanSheets.exe file.
 Run the executable. No local Python installation is required as all dependencies are bundled within the application 
 
 Performance Considerations
+
 Initial Startup: Users may experience a brief delay (3–5 seconds) when launching the executable. This is an intentional design choice where the application pre-initializes the Pandas and NumPy environments and pre-loads resource paths to ensure near-instantaneous performance once data cleaning operations begin.
 
 👤 Author
